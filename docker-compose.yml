@@ -10,7 +10,17 @@ services:
       discovery.type: single-node
     volumes:
       - esdata:/usr/share/elasticsearch/data
+  grafana:
+    image: grafana/grafana:4.6.1
+    ports:
+      - 3000:3000
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: changeme
+    volumes:
+      - gfdata:/var/lib/grafana:/var/lib/grafana
 
 volumes:
   esdata:
+    driver: local
+  gfdata:
     driver: local
