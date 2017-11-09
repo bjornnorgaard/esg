@@ -16,10 +16,11 @@ namespace WebApi
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
-                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://locahost:9200"))
+                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200"))
                 {
                     AutoRegisterTemplate = true,
-                    IndexFormat = $"esg-log-{DateTime.Now:yyyy.MM.dd}"
+                    IndexFormat = $"esg-log-{DateTime.Now:yyyy.MM.dd}",
+                    ModifyConnectionSettings = x => x.BasicAuthentication("elastic", "changeme")
                 })
                 .CreateLogger();
 

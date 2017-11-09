@@ -24,10 +24,10 @@ namespace WebApi.Controllers
         [HttpGet, Route("{id}")]
         public IActionResult Get(int id)
         {
-            _logger.LogDebug("User with {UserId} requested", id);
+            _logger.LogDebug("User with {RequestedId} requested", id);
 
             var user = new User(id);
-            _logger.LogInformation("{@User} found with {UserId}", user, id);
+            _logger.LogInformation("{@User} found", user);
 
             return Json(user);
         }
