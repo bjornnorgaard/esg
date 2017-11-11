@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
-using System.Web.Routing;
+﻿using System.Web.Http;
+using Autofac;
+using Autofac.Integration.WebApi;
+using Serilog;
+using Serilog.Core;
 
 namespace WebApi.Framework
 {
@@ -12,6 +11,18 @@ namespace WebApi.Framework
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+
+            var log = new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            var config = GlobalConfiguration.Configuration;
+            var builder = new ContainerBuilder();
+
+            builder.RegisterType<Logger>().As<ILogger>();
+
+            var container = builder.Build();
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
     }
 }
